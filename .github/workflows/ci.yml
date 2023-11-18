@@ -16,7 +16,7 @@ jobs:
     - name: Set up Ruby
       uses: actions/setup-ruby@v2
       with:
-        ruby-version: 2.x # Replace with your Ruby version
+        ruby-version: 2.6.6
 
     - name: Install dependencies
       run: |
