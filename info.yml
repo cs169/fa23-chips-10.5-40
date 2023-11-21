@@ -1,0 +1,24 @@
+project:
+  name: 'CS169-fa23-40'
+  owner: 'fa23'
+  teamId: '40'
+  identities: {}
+  notifications:
+    email: 'angelinasongco@berkeley.edu'
+  members:
+    member1:
+      name: 'Angelina'
+      surname: 'Songco' 
+      githubUsername: 'angsongco'
+    member2:
+      name: 'Sungjin'
+      surname: 'Yi' 
+      githubUsername: 'ipaule'
+    member3:
+      name: 'Owen'
+      surname: 'Hu' 
+      githubUsername: 'Edge7481'
+    member4:
+      name: 'Irene'
+      surname: 'Lee' 
+      githubUsername: 'irenelgg'
