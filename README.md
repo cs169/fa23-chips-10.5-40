@@ -13,6 +13,8 @@ political events in their area as well as aggregate, share and view news items i
 
 [![codecov](https://codecov.io/gh/saasbook/hw-agile-iterations/branch/master/graph/badge.svg?token=SGYCvQX4Us)](https://codecov.io/gh/saasbook/hw-agile-iterations)
 
+[![Bluejay Dashboard](https://img.shields.io/badge/Bluejay-Dashboard_40-blue.svg)](http://dashboard.bluejay.governify.io/dashboard/script/dashboardLoader.js?dashboardURL=https://reporter.bluejay.governify.io/api/v4/dashboards/tpa-CS169-2023-GH-cs169_fa23-chips-10.5-40/main)
+
 ![](https://github.com///actions/workflows//badge.svg)
 
 ### Getting Setup Locally
