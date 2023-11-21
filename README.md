@@ -13,6 +13,10 @@ political events in their area as well as aggregate, share and view news items i
 
 [![codecov](https://codecov.io/gh/saasbook/hw-agile-iterations/branch/master/graph/badge.svg?token=SGYCvQX4Us)](https://codecov.io/gh/saasbook/hw-agile-iterations)
 
+![](https://github.com///actions/workflows//badge.svg)
+
 ### Getting Setup Locally
 
 Follow the [Getting Started Guide](./docs/01-getting-started.md) to get your localhost environment setup.
+
+
