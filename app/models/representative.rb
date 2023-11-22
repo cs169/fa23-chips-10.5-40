@@ -14,6 +14,7 @@ class Representative < ApplicationRecord
       state = ''
       zip = ''
       political_party = ''
+      profile = ''
 
       rep_info.offices.each do |office|
         if office.official_indices.include? index
@@ -29,6 +30,7 @@ class Representative < ApplicationRecord
         zip = address.zip
       end
       political_party = official.party if official.party
+      profile = official.photoUrl if official.respond_to?(:photoUrl) && official.photoUrl
       next if Representative.exists?(name: official.name, ocdid: ocdid_temp)
 
       rep = Representative.create!({
@@ -39,7 +41,8 @@ class Representative < ApplicationRecord
                                      city:            city,
                                      state:           state,
                                      zip:             zip,
-                                     political_party: political_party
+                                     political_party: political_party,
+                                     profile:         profile
                                    })
       reps.push(rep)
     end
