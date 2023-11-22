@@ -1,0 +1,41 @@
+.row.mt-2
+  .col-12.col-md-6.offset-md-3.col-xl-4.offset-xl-4
+    %h1.text-center= Representative
+    .card-body
+      .card-text
+        %dl.row
+          %dt.col-sm-3.text-md-right Name:
+          %dt.col-sm-9
+            = @representative.name
+        %dl.row
+          %dt.col-sm-3.text-md-right OCD ID:
+          %dt.col-sm-9
+            = @representative.ocdid_temp
+        %dl.row
+          %dt.col-sm-3.text-md-right Office:
+          %dt.col-sm-9
+            = @representative.office
+        %dl.row
+          %dt.col-sm-3.text-md-right Street:
+          %dt.col-sm-9
+            = @representative.street
+        %dl.row
+          %dt.col-sm-3.text-md-right City:
+          %dt.col-sm-9
+            = @representative.city
+        %dl.row
+          %dt.col-sm-3.text-md-right State:
+          %dt.col-sm-9
+            = @representative.state
+        %dl.row
+          %dt.col-sm-3.text-md-right Zip:
+          %dt.col-sm-9
+            = @representative.zip
+        %dl.row
+          %dt.col-sm-3.text-md-right Party:
+          %dt.col-sm-9
+            = @representative.political_party
+        %dl.row
+          %dt.col-sm-3.text-md-right Photo:
+          %img{ src: @representative.photo }     
+      
