@@ -32,8 +32,8 @@ class Representative < ApplicationRecord
         political_party = official.party if official.party
       end
       
-      next if Representative.exists?(name: official.name, ocdid: ocdid_temp)
-
+      rep = Representative.find_or_initialize_by(name: official.name, ocdid: ocdid_temp)
+      
       rep = Representative.create!(
                                      name:            official.name,
                                      ocdid:           ocdid_temp,

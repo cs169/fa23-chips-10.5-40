@@ -10,11 +10,11 @@
         %dl.row
           %dt.col-sm-3.text-md-right OCD ID:
           %dt.col-sm-9
-            = @representative.ocdid_temp
+            = @representative.ocdid
         %dl.row
           %dt.col-sm-3.text-md-right Office:
           %dt.col-sm-9
-            = @representative.office
+            = @representative.title
         %dl.row
           %dt.col-sm-3.text-md-right Street:
           %dt.col-sm-9
@@ -37,5 +37,8 @@
             = @representative.political_party
         %dl.row
           %dt.col-sm-3.text-md-right Photo:
-          %img{ src: @representative.photo }     
+          - if @representative.photo.present?
+            %img{ src: @representative.photo }
+          - else
+            none
       
