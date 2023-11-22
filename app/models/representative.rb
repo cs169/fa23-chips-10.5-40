@@ -14,24 +14,27 @@ class Representative < ApplicationRecord
       state = ''
       zip = ''
       political_party = ''
+      photo = ''
 
       rep_info.offices.each do |office|
         if office.official_indices.include? index
           title_temp = office.name
           ocdid_temp = office.division_id
+          unless official.address.nil?
+            address = official.address[0]
+            street = address.line1
+            city = address.city
+            state = address.state
+            zip = address.zip
+          end
+          photo = official.photo_url
         end
+        political_party = official.party if official.party
       end
-      if official.address
-        address = official.address[0]
-        street = address.line1
-        city = address.city
-        state = address.state
-        zip = address.zip
-      end
-      political_party = official.party if official.party
+      
       next if Representative.exists?(name: official.name, ocdid: ocdid_temp)
 
-      rep = Representative.create!({
+      rep = Representative.create!(
                                      name:            official.name,
                                      ocdid:           ocdid_temp,
                                      title:           title_temp,
@@ -39,8 +42,9 @@ class Representative < ApplicationRecord
                                      city:            city,
                                      state:           state,
                                      zip:             zip,
-                                     political_party: political_party
-                                   })
+                                     political_party: political_party,
+                                     photo: photo
+                                   )
       reps.push(rep)
     end
     reps
