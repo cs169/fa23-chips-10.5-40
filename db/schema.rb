@@ -49,6 +49,12 @@ ActiveRecord::Schema.define(version: 2020_07_28_065604) do
     t.datetime "updated_at", null: false
     t.string "ocdid"
     t.string "title"
+    t.string "street"
+    t.string "state"
+    t.string "city"
+    t.string "zip"
+    t.string "political_party"
+    t.string "photo"
   end
 
   create_table "states", force: :cascade do |t|

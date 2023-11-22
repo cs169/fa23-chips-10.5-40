@@ -5,37 +5,28 @@
       .card-text
         %dl.row
           %dt.col-sm-3.text-md-right Name:
-          %dt.col-sm-9
+          %dd.col-sm-9
             = @representative.name
         %dl.row
           %dt.col-sm-3.text-md-right OCD ID:
-          %dt.col-sm-9
-            = @representative.ocdid_temp
+          %dd.col-sm-9
+            = @representative.ocdid
         %dl.row
           %dt.col-sm-3.text-md-right Office:
-          %dt.col-sm-9
-            = @representative.office
+          %dd.col-sm-9
+            = @representative.title
         %dl.row
-          %dt.col-sm-3.text-md-right Street:
-          %dt.col-sm-9
-            = @representative.street
-        %dl.row
-          %dt.col-sm-3.text-md-right City:
-          %dt.col-sm-9
-            = @representative.city
-        %dl.row
-          %dt.col-sm-3.text-md-right State:
-          %dt.col-sm-9
-            = @representative.state
-        %dl.row
-          %dt.col-sm-3.text-md-right Zip:
-          %dt.col-sm-9
-            = @representative.zip
+          %dt.col-sm-3.text-md-right Address:
+          %dd.col-sm-9
+            = [@representative.street, @representative.city, @representative.state, @representative.zip].compact.join(', ')
         %dl.row
           %dt.col-sm-3.text-md-right Party:
-          %dt.col-sm-9
+          %dd.col-sm-9
             = @representative.political_party
         %dl.row
           %dt.col-sm-3.text-md-right Photo:
-          %img{ src: @representative.photo }     
+          - if @representative.photo.present?
+            %img{ src: @representative.photo }
+          - else
+            none
       
