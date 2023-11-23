@@ -14,7 +14,7 @@ describe Representative do
       state:           'CA',
       zip:             '12345',
       political_party: 'Independent',
-      profile:         'example.com'
+      photo:         'example.com'
     )
     expect(representative).to be_valid
   end
@@ -28,8 +28,8 @@ describe Representative do
 
     it 'creates representatives from rep_info' do
       allow(@rep_info).to receive(:officials).and_return([
-                                                           double('official1', name: 'John Doe', address: nil, party: nil, photoUrl: nil),
-                                                           double('official2', name: 'Jane Smith', address: nil, party: nil, photoUrl: nil)
+                                                           double('official1', name: 'John Doe', address: nil, party: nil, photo_url: 'http://example.com/photo1.jpg'),
+                                                           double('official2', name: 'Jane Smith', address: nil, party: nil, photo_url: 'http://example.com/photo1.jpg')
                                                          ])
 
       allow(@rep_info).to receive(:offices).and_return([
@@ -38,47 +38,59 @@ division_id: 'ocd-division/country:us/state:ca/place:example_city'),
                                                          double('office2', name: 'Governor', official_indices: [1],
 division_id: 'ocd-division/country:us/state:ca')
                                                        ])
+      reps = Representative.civic_api_to_representative_params(@rep_info)
+      expect(reps.size).to eq(2)
+      expect(reps[0].attributes).to include(
+        'name'            => 'John Doe',
+        'ocdid'           => 'ocd-division/country:us/state:ca/place:example_city',
+        'title'           => 'Mayor',
+        'street'          => "",
+        'city'            => "",
+        'state'           => "",
+        'zip'             => "",
+        'political_party' => "",
+        'photo'           => 'http://example.com/photo1.jpg'
+      )
+      expect(reps[1].attributes).to include(
+        'name'            => 'Jane Smith',
+        'ocdid'           => 'ocd-division/country:us/state:ca',
+        'title'           => 'Governor',
+        'street'          => "",
+        'city'            => "",
+        'state'           => "",
+        'zip'             => "",
+        'political_party' => "",
+        'photo'           => 'http://example.com/photo1.jpg'
+      )
+      reps.each do |rep|
+        if rep.new_record?
+          expect(rep).to receive(:save!)
+          rep.save!
+        end
+      end
 
-      expect(described_class).to receive(:create!).with({
-                                                          name:            'John Doe',
-                                                          ocdid:           'ocd-division/country:us/state:ca/place:example_city',
-                                                          title:           'Mayor',
-                                                          street:          '',
-                                                          city:            '',
-                                                          state:           '',
-                                                          zip:             '',
-                                                          political_party: '',
-                                                          profile:         ''
-                                                        })
-      expect(described_class).to receive(:create!).with({
-                                                          name:            'Jane Smith',
-                                                          ocdid:           'ocd-division/country:us/state:ca',
-                                                          title:           'Governor',
-                                                          street:          '',
-                                                          city:            '',
-                                                          state:           '',
-                                                          zip:             '',
-                                                          political_party: '',
-                                                          profile:         ''
-                                                        })
-
-      described_class.civic_api_to_representative_params(@rep_info)
     end
 
     it 'doesnt duplicate representatives' do
       allow(@rep_info).to receive(:officials).and_return([
-                                                           double('official1', name: 'Chris Traeger', address: nil, party: nil, photoUrl: nil)
+                                                           double('official1', name: 'Chris Traeger', address: nil, party: nil, photo_url: nil)
                                                          ])
 
       allow(@rep_info).to receive(:offices).and_return([
                                                          double('office1', name: 'Clerk', official_indices: [0],
 division_id: 'ocd-division/country:us/state:ca/place:example_city')
                                                        ])
+      expect(Representative).to receive(:find_or_initialize_by).with(
+        name: 'Chris Traeger',
+        ocdid: 'ocd-division/country:us/state:ca/place:example_city'
+      ).and_return(@existing_rep)
 
-      expect(@existing_rep).not_to receive(:update!)
-      expect(described_class).not_to receive(:create!)
+      expect(@existing_rep).to receive(:new_record?).and_return(false)
+      expect(@existing_rep).to receive(:changed?).and_return(true)
+      expect(@existing_rep).to receive(:save!)
+      reps = described_class.civic_api_to_representative_params(@rep_info)
+      expect(reps.first).to eq(@existing_rep)
 
-      described_class.civic_api_to_representative_params(@rep_info)
     end
   end
 end

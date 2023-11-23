@@ -27,24 +27,24 @@ class Representative < ApplicationRecord
             state = address.state
             zip = address.zip
           end
-          photo = official.photo_url
+          photo = official.photo_url if official.photo_url
         end
         political_party = official.party if official.party
       end
       
       rep = Representative.find_or_initialize_by(name: official.name, ocdid: ocdid_temp)
-      
-      rep = Representative.create!(
-                                     name:            official.name,
-                                     ocdid:           ocdid_temp,
-                                     title:           title_temp,
-                                     street:          street,
-                                     city:            city,
-                                     state:           state,
-                                     zip:             zip,
-                                     political_party: political_party,
-                                     photo: photo
-                                   )
+      if rep.new_record? || rep.changed?
+        rep.attributes = {
+          title:           title_temp,
+          street:          street,
+          city:            city,
+          state:           state,
+          zip:             zip,
+          political_party: political_party,
+          photo:           photo
+        }
+        rep.save!
+      end
       reps.push(rep)
     end
     reps
