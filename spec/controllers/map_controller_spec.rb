@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/controllers/map_controller_spec.rb
 
 require 'rails_helper'
@@ -8,7 +10,6 @@ RSpec.describe MapController, type: :controller do
       get :index
       expect(response).to render_template(:index)
     end
-
 
     # assigns @states to all the states and the @states_by_fips_code to its fips code
     it 'assigns @states and @states_by_fips_code' do
@@ -21,9 +22,9 @@ RSpec.describe MapController, type: :controller do
 
   describe 'GET #state' do
     # for county_details
-    let(:state) { double(State, symbol: 'CA', counties: []) }
+    let(:state) { instance_double(State, symbol: 'CA', counties: []) }
 
-    before(:each) do
+    before do
       allow(State).to receive(:find_by).and_return(state)
     end
 
@@ -44,12 +45,11 @@ RSpec.describe MapController, type: :controller do
         expect(flash[:alert]).to eq("State 'NONEXISTENT' not found.")
       end
     end
-
   end
-  
+
   describe 'GET #county' do
-    let(:los_angeles_county) { double(County, std_fips_code: '12345', name: 'Los Angeles County') }
-    let(:state) { double(State, id: 1, symbol: 'CA', counties: [los_angeles_county]) }
+    let(:los_angeles_county) { instance_double(County, std_fips_code: '12345', name: 'Los Angeles County') }
+    let(:state) { instance_double(State, id: 1, symbol: 'CA', counties: [los_angeles_county]) }
 
     before do
       allow(State).to receive(:find_by).and_return(state)
@@ -78,16 +78,15 @@ RSpec.describe MapController, type: :controller do
     context 'when county does not exist' do
       before do
         allow(State).to receive(:find_by).and_return(state)
-        allow(controller).to receive(:get_requested_county).and_return(nil)  # Simulating the case where the county does not exist
+        allow(controller).to receive(:get_requested_county).and_return(nil)
       end
-    
+
       it 'redirects to root_path with an alert when county does not exist' do
         get :county, params: { state_symbol: state.symbol, std_fips_code: '12345' }
-        puts flash.inspect 
+        puts flash.inspect
         expect(response).to redirect_to(root_path)
         expect(flash[:alert]).to eq("County with code '12345' not found for #{state.symbol}")
       end
     end
   end
-
 end
