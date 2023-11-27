@@ -252,3 +252,67 @@ end
 Then /^show me the page$/ do
   save_and_open_page
 end
+
+When(/^I click the state (.+)$/) do |state|
+  visit state_map_path(state)
+end
+
+When(/^I search representatives for county (.+)$/) do |county|
+  visit county_path("CA", county)
+end
+
+When(/^I visit the page (.+)$/) do |page|
+  visit page
+ end
+
+Given(/these representatives exist/) do |rep|
+  rep.hashes.each do |r|
+      Representative.create!(r)
+      NewsItem.new
+  end
+end
+
+When(/I visit profile (.*)/) do |user|
+  visit user_profile_path
+end
+
+When(/I create event (.*)/) do |user|
+  visit new_my_event_path
+end
+
+Given (/the setup(.*)/) do |_unused|
+  State.create!(                name:         'California',
+  symbol:       'CA',
+  fips_code:    '06',
+  is_territory: 0,
+  lat_min:      '-124.409591',
+  lat_max:      '-114.131211',
+  long_min:     '32.534156',
+  long_max:     '-114.131211')
+  state = State.find_by(symbol: 'CA')
+  County.create!(
+      name:       'Contra Costa County',
+      state_id:   state.id,
+      fips_code:  1,
+      fips_class: 'test'
+  )
+end
+
+#authentication part
+
+When 'I click on {string}' do |link_name|
+  click_link_or_button link_name
+end
+
+Then 'I should be redirected to the home page' do
+  expect(current_path).to eq root_path
+end
+
+And 'I should see my {string} name on the page' do |provider|
+  name = provider == 'Google' ? 'Google Test User' : 'GitHub Test User'
+  expect(page).to have_content(name)
+end
+
+Given 'I am logged in' do
+  User.create(uid: '12345', provider: 'google_oauth2', first_name: 'Test', last_name: 'User', email: 'test@example.com')
+end
