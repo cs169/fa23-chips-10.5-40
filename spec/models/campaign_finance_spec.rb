@@ -23,12 +23,12 @@ RSpec.describe CampaignFinance, type: :model do
     end
 
     it 'creates or updates campaign finance records' do
-      expect { CampaignFinance.propublica_api_to_campaign_finance_params(api_results['results']) }
+      expect { CampaignFinance.propublica_api_to_campaign_finance_params(api_results['results'], '2020', 'candidate-loan') }
         .to change { CampaignFinance.count }.by(api_results['results'].size)
     end
 
     it 'correctly assigns attributes to campaign finance records' do
-      CampaignFinance.propublica_api_to_campaign_finance_params(api_results['results'])
+      CampaignFinance.propublica_api_to_campaign_finance_params(api_results['results'], '2020', 'candidate-loan')
       record = CampaignFinance.first
 
       expect(record.first_name).to eq('JOHN')
