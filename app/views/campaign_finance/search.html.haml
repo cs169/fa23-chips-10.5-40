@@ -1,0 +1,16 @@
+.container-fluid
+  .row
+    .col-md-8.offset-md-2
+      .table-responsive-md.pt-5
+        %table.table.table-striped.table-hover#events
+          %caption Table of Campaign Finances
+          %thead.thead-dark
+            %tr
+              %th Name
+              %th= @category
+
+          %tbody
+            - @campaign_finances.each do |campaign_finance|
+              %tr
+                %td= campaign_finance.name
+                %td= campaign_finance.category

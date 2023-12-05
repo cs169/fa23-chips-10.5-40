@@ -1,40 +1,21 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+
+
 RSpec.describe CampaignFinance, type: :model do
-  describe '.propublica_api_to_campaign_finance_params' do
-    let(:api_results) do
-      {
-        'status' => 'OK',
-        'results' => [
-          {
-          'name' => 'DOE, JOHN',
-          'candidate_loans' => 1000.0,
-          'total_contributions' => 2000.0,
-          'debts_owed' => 500.0,
-          'total_disbursements' => 1500.0,
-          'end_cash' => 2500.0,
-          'total_from_individuals' => 1750.0,
-          'total_from_pacs' => 250.0,
-          'total_refunds' => 100.0,
-        }
-        ] 
-      }
+  describe '.cycles' do
+    it 'returns an array of years from 2010 to 2020' do
+      expect(described_class.cycles).to eq((2010..2020).to_a)
     end
+  end
 
-    it 'creates or updates campaign finance records' do
-      expect { CampaignFinance.propublica_api_to_campaign_finance_params(api_results['results']) }
-        .to change { CampaignFinance.count }.by(api_results['results'].size)
-    end
+  describe '.categories' do
+    expected_keys = ['candidate-loan', 'contribution-total', 'debts-owed', 'disbursements-total',
+    'end-cash', 'individual-total', 'pac-total', 'receipts-total', 'refund-total']
 
-    it 'correctly assigns attributes to campaign finance records' do
-      CampaignFinance.propublica_api_to_campaign_finance_params(api_results['results'])
-      record = CampaignFinance.first
-
-      expect(record.first_name).to eq('JOHN')
-      expect(record.last_name).to eq('DOE')
-      expect(record.candidate_loans).to eq(1000.0)
-
+    it 'returns the correct categories hash' do
+      expect(described_class.categories.keys).to contain_exactly(*expected_keys)
     end
   end
 end
