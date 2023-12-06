@@ -7,10 +7,14 @@
           %thead.thead-dark
             %tr
               %th Name
-              %th= @category
+              %th= @category_key
 
           %tbody
-            - @campaign_finances.each do |campaign_finance|
+            - if @campaign_finances.empty?
               %tr
-                %td= campaign_finance.name
-                %td= campaign_finance.category
+                %td{ colspan: 2 } No campaign finance data found.
+            - else
+              - @campaign_finances.each do |campaign_finance|
+                %tr
+                  %td= campaign_finance['name']
+                  %td= campaign_finance[@category_key]
