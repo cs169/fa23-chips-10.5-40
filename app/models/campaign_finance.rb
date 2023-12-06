@@ -2,7 +2,7 @@
 
 class CampaignFinance < ApplicationRecord
   def self.cycles
-    (2010..2020).to_a
+    (2010..2020).select {|year| year.even?}
   end
 
   def self.categories
@@ -21,10 +21,22 @@ class CampaignFinance < ApplicationRecord
 
   def self.find_from_top_twenty(search_params)
     key = '9lcjslvwVjbqtX0KcQQ3W9rFm316caQQ2T89n4xA'
-    url = "https://api.propublica.org/campaign-finance/v1/#{search_params[:cycle]}/candidates/leaders/#{categories[search_params[:category]]}"
-    response = Faraday.get(url) do |request|
-      request.headers['X-API-Key'] = key
+    url = "https://api.propublica.org/campaign-finance/v1/#{search_params[:cycle]}/candidates/leaders/#{search_params[:category]}.json"
+
+    begin
+      response = Faraday.get(url) do |request|
+        request.headers['X-API-Key'] = key
+      end
+
+      if response.success? && JSON.parse(response.body).key?('results')
+        JSON.parse(response.body)['results']
+      else
+        Rails.logger.error "API call failed"
+        [] 
+      end
+    rescue Faraday::Error => e
+      Rails.logger.error "Failed to fetch data: #{e.message}"
+      []
     end
-    JSON.parse(response.body)['results']
   end
 end
