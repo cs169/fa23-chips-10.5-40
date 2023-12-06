@@ -6,7 +6,6 @@ class MyNewsItemsController < SessionController
   before_action :set_issues
   before_action :set_news_item, only: %i[edit update destroy]
 
-
   def new
     @news_item = NewsItem.new
   end
@@ -55,12 +54,12 @@ class MyNewsItemsController < SessionController
   end
 
   def set_issues
-    @issues = ["Free Speech", "Immigration", "Terrorism", "Social Security and
-    Medicare", "Abortion", "Student Loans", "Gun Control", "Unemployment",
-    "Climate Change", "Homelessness", "Racism", "Tax Reform", "Net
-    Neutrality", "Religious Freedom", "Border Security", "Minimum Wage",
-    "Equal Pay"]
-  end  
+    @issues = ['Free Speech', 'Immigration', 'Terrorism', "Social Security and
+    Medicare", 'Abortion', 'Student Loans', 'Gun Control', 'Unemployment',
+               'Climate Change', 'Homelessness', 'Racism', 'Tax Reform', "Net
+    Neutrality", 'Religious Freedom', 'Border Security', 'Minimum Wage',
+               'Equal Pay']
+  end
 
   # Only allow a list of trusted parameters through.
   def news_item_params

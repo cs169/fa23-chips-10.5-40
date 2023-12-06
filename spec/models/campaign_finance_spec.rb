@@ -2,7 +2,6 @@
 
 require 'rails_helper'
 
-
 RSpec.describe CampaignFinance, type: :model do
   describe '.cycles' do
     it 'returns an array of years from 2010 to 2020' do
@@ -11,8 +10,8 @@ RSpec.describe CampaignFinance, type: :model do
   end
 
   describe '.categories' do
-    expected_keys = ['candidate-loan', 'contribution-total', 'debts-owed', 'disbursements-total',
-    'end-cash', 'individual-total', 'pac-total', 'receipts-total', 'refund-total']
+    expected_keys = %w[candidate-loan contribution-total debts-owed disbursements-total
+                       end-cash individual-total pac-total receipts-total refund-total]
 
     it 'returns the correct categories hash' do
       expect(described_class.categories.keys).to contain_exactly(*expected_keys)
