@@ -1,32 +1,32 @@
 .row.mt-2
-  .col-12.col-md-6.offset-md-3.col-xl-4.offset-xl-4
-    %h1.text-center= Representative
-    .card-body
-      .card-text
-        %dl.row
-          %dt.col-sm-3.text-md-right Name:
-          %dd.col-sm-9
-            = @representative.name
-        %dl.row
-          %dt.col-sm-3.text-md-right OCD ID:
-          %dd.col-sm-9
-            = @representative.ocdid
-        %dl.row
-          %dt.col-sm-3.text-md-right Office:
-          %dd.col-sm-9
-            = @representative.title
-        %dl.row
-          %dt.col-sm-3.text-md-right Address:
-          %dd.col-sm-9
-            = [@representative.street, @representative.city, @representative.state, @representative.zip].compact.join(', ')
-        %dl.row
-          %dt.col-sm-3.text-md-right Party:
-          %dd.col-sm-9
-            = @representative.political_party
-        %dl.row
-          %dt.col-sm-3.text-md-right Photo:
-          - if @representative.photo.present?
-            %img{ src: @representative.photo }
-          - else
-            none
-      
+    .col-12.col-md-6.offset-md-3.col-xl-4.offset-xl-4
+        %h1.text-center= Representative
+        .card-body
+            .card-text
+                %dl.row
+                    %dt.col-sm-3.text-md-right Name:
+                    %dd.col-sm-9
+                        = @representative.name
+                %dl.row
+                    %dt.col-sm-3.text-md-right OCD ID:
+                    %dd.col-sm-9
+                        = @representative.ocdid
+                %dl.row
+                    %dt.col-sm-3.text-md-right Office:
+                    %dd.col-sm-9
+                        = @representative.title
+                %dl.row
+                    %dt.col-sm-3.text-md-right Address:
+                    %dd.col-sm-9
+                        = [@representative.street, @representative.city,
+                            @representative.state, @representative.zip].compact.join(', ')
+                %dl.row
+                    %dt.col-sm-3.text-md-right Party:
+                    %dd.col-sm-9
+                        = @representative.political_party
+                %dl.row
+                    %dt.col-sm-3.text-md-right Photo:
+                    - if @representative.photo.present?
+                        %img{ src: @representative.photo }
+                    - else
+                        none
