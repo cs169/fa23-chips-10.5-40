@@ -21,21 +21,21 @@ describe Representative do
 
   describe 'civic api to representative params' do
     before do
-      @rep_info = double('rep_info')
+      @rep_info = instance_double('rep_info')
       @existing_rep = described_class.create!(name: 'Chris Traeger',
                                               ocdid: 'ocd-division/country:us/state:ca/place:example_city', title: 'Clerk')
     end
 
     it 'creates representatives from rep_info' do
       allow(@rep_info).to receive(:officials).and_return([
-                                                           double('official1', name: 'John Doe', address: nil, party: nil, photo_url: 'http://example.com/photo1.jpg'),
-                                                           double('official2', name: 'Jane Smith', address: nil, party: nil, photo_url: 'http://example.com/photo1.jpg')
+                                                           instance_double('official1', name: 'John Doe', address: nil, party: nil, photo_url: 'http://example.com/photo1.jpg'),
+                                                           instance_double('official2', name: 'Jane Smith', address: nil, party: nil, photo_url: 'http://example.com/photo1.jpg')
                                                          ])
 
       allow(@rep_info).to receive(:offices).and_return([
-                                                         double('office1', name: 'Mayor', official_indices: [0],
+                                                         instance_double('office1', name: 'Mayor', official_indices: [0],
 division_id: 'ocd-division/country:us/state:ca/place:example_city'),
-                                                         double('office2', name: 'Governor', official_indices: [1],
+                                                         instance_double('office2', name: 'Governor', official_indices: [1],
 division_id: 'ocd-division/country:us/state:ca')
                                                        ])
       reps = Representative.civic_api_to_representative_params(@rep_info)
@@ -73,11 +73,11 @@ division_id: 'ocd-division/country:us/state:ca')
 
     it 'doesnt duplicate representatives' do
       allow(@rep_info).to receive(:officials).and_return([
-                                                           double('official1', name: 'Chris Traeger', address: nil, party: nil, photo_url: nil)
+                                                           instance_double('official1', name: 'Chris Traeger', address: nil, party: nil, photo_url: nil)
                                                          ])
 
       allow(@rep_info).to receive(:offices).and_return([
-                                                         double('office1', name: 'Clerk', official_indices: [0],
+                                                         instance_double('office1', name: 'Clerk', official_indices: [0],
 division_id: 'ocd-division/country:us/state:ca/place:example_city')
                                                        ])
       expect(Representative).to receive(:find_or_initialize_by).with(
