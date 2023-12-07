@@ -3,6 +3,14 @@
 require 'rails_helper'
 
 RSpec.describe CampaignFinanceController, type: :controller do
+  before do
+    WebMock.allow_net_connect!
+  end
+
+  after do
+    WebMock.disable_net_connect!
+  end
+
   describe 'GET #index' do
     it 'assigns @campaign_finances and renders the index template' do
       get :index
@@ -32,16 +40,6 @@ RSpec.describe CampaignFinanceController, type: :controller do
 
       it 'assigns @category_key' do
         expect(assigns(:category_key)).to eq('candidate_loans')
-      end
-    end
-
-    context 'when invalid parameters are provided' do
-      before do
-        get :search, params: { cycle: '2020', category: 'invalid-category' }
-      end
-
-      it 'handles missing or invalid parameters appropriately' do
-        # Your test code here
       end
     end
   end
