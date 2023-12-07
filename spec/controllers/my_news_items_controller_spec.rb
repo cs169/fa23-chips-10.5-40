@@ -85,10 +85,10 @@ RSpec.describe MyNewsItemsController, type: :controller do
 
     context 'have valid parameters' do
       it 'updates request news_item' do
-        new_attributes = { title: 'Updated Title' }
+        new_attributes = { title: 'New Title' }
         put :update, params: { id: news_item.id, news_item: new_attributes, representative_id: representative.id }
         news_item.reload
-        expect(news_item.title).to eq('Updated Title')
+        expect(news_item.title).to eq('New Title')
       end
 
       it 'assigns request news_item as @news_item' do
