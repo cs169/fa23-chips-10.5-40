@@ -49,14 +49,14 @@ RSpec.describe MyNewsItemsController, type: :controller do
   end
 
   describe 'GET #new' do
-    it 'assigns news_item as @news_item' do
+    it 'assigns @news_item' do
       get :new, params: { representative_id: representative.id }
       expect(assigns(:news_item)).to be_a_new(NewsItem)
     end
   end
 
   describe 'POST #create' do
-    context 'have valid parameters' do
+    context 'with valid parameters' do
       it 'creates a new NewsItem' do
         expect do
           post :create, params: { representative_id: representative.id, news_item: valid_attributes }
@@ -73,7 +73,7 @@ RSpec.describe MyNewsItemsController, type: :controller do
         post :create, params: { representative_id: representative.id, news_item: valid_attributes }
         expect(response).to redirect_to(representative_news_item_path(representative, assigns(:news_item)))
       end
-    end  
+    end
   end
 
   describe 'PUT #update' do
@@ -83,12 +83,13 @@ RSpec.describe MyNewsItemsController, type: :controller do
       )
     end
 
-    context 'have valid parameters' do
-      it 'updates request news_item' do
-        new_attributes = { title: 'New Title' }
+    context 'with valid parameters' do
+      it 'updates the news_item' do
+        new_attributes = { title: 'New Title', description: 'New Description'}
         put :update, params: { id: news_item.id, news_item: new_attributes, representative_id: representative.id }
         news_item.reload
         expect(news_item.title).to eq('New Title')
+        expect(news_item.description).to eq('New Description')
       end
 
       it 'assigns request news_item as @news_item' do
@@ -100,6 +101,6 @@ RSpec.describe MyNewsItemsController, type: :controller do
         put :update, params: { id: news_item.id, news_item: valid_attributes, representative_id: representative.id }
         expect(response).to redirect_to(representative_news_item_path(representative, news_item))
       end
-    end   
+    end
   end
 end
