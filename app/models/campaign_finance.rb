@@ -2,7 +2,7 @@
 
 class CampaignFinance < ApplicationRecord
   def self.cycles
-    (2010..2020).select {|year| year.even?}
+    (2010..2020).select(&:even?)
   end
 
   def self.categories
@@ -28,11 +28,11 @@ class CampaignFinance < ApplicationRecord
         request.headers['X-API-Key'] = key
       end
 
-      if response.success? && JSON.parse(response.body).key?('results')
+      if response.success? && JSON.parse(response.body).has_key?('results')
         JSON.parse(response.body)['results']
       else
-        Rails.logger.error "API call failed"
-        [] 
+        Rails.logger.error 'API call failed'
+        []
       end
     rescue Faraday::Error => e
       Rails.logger.error "Failed to fetch data: #{e.message}"

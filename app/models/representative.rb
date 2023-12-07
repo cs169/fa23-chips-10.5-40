@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Representative < ApplicationRecord
   has_many :news_items, dependent: :delete_all
 
@@ -10,29 +12,31 @@ class Representative < ApplicationRecord
   end
 
   def self.build_representative(rep_info, official)
-    ocdid_temp, title_temp, street, city, state, zip, political_party, photo = '', '', '', '', '', '', '', ''
+    office_info = find_office_info(rep_info, official)
+    address = official.address&.first
 
-    rep_info.offices.each do |office|
-      if office.official_indices.include?(rep_info.officials.index(official))
-        title_temp = office.name
-        ocdid_temp = office.division_id
-        address = official.address&.first
-        street, city, state, zip = address&.line1, address&.city, address&.state, address&.zip if address
-        photo = official.photo_url if official.photo_url
-      end
-      political_party = official.party if official.party
-    end
-
-    Representative.find_or_initialize_by(name: official.name, ocdid: ocdid_temp).tap do |rep|
+    Representative.find_or_initialize_by(name: official.name, ocdid: office_info[:ocdid]).tap do |rep|
       rep.assign_attributes(
-        title:           title_temp,
-        street:          street,
-        city:            city,
-        state:           state,
-        zip:             zip,
-        political_party: political_party,
-        photo:           photo
+        title:           office_info[:title],
+        street:          address&.line1,
+        city:            address&.city,
+        state:           address&.state,
+        zip:             address&.zip,
+        political_party: official.party || '',
+        photo:           official.photo_url || ''
       )
     end
+  end
+
+  def self.find_office_info(rep_info, official)
+    rep_info.offices.each do |office|
+      if office.official_indices.include?(rep_info.officials.index(official))
+        return {
+          title: office.name,
+          ocdid: office.division_id
+        }
+      end
+    end
+    { title: '', ocdid: '' }
   end
 end

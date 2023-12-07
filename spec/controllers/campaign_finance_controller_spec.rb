@@ -12,12 +12,13 @@ RSpec.describe CampaignFinanceController, type: :controller do
       expect(response).to render_template(:index)
     end
   end
+
   describe 'GET #search' do
     let(:valid_params) { { cycle: '2020', category: 'candidate-loan' } }
 
     context 'when valid parameters are provided' do
       before do
-        allow(CampaignFinance).to receive(:find_from_top_twenty).and_return(['some', 'results'])
+        allow(CampaignFinance).to receive(:find_from_top_twenty).and_return(%w[some results])
         get :search, params: valid_params
       end
 
@@ -26,7 +27,7 @@ RSpec.describe CampaignFinanceController, type: :controller do
       end
 
       it 'assigns @campaign_finances' do
-        expect(assigns(:campaign_finances)).to eq(['some', 'results'])
+        expect(assigns(:campaign_finances)).to eq(%w[some results])
       end
 
       it 'assigns @category_key' do
@@ -44,5 +45,4 @@ RSpec.describe CampaignFinanceController, type: :controller do
       end
     end
   end
-
 end
