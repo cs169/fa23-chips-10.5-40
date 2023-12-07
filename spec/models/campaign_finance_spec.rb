@@ -46,6 +46,16 @@ RSpec.describe CampaignFinance, type: :model do
         expect(CampaignFinance.find_from_top_twenty(search_params)).to eq([])
       end
     end
+    context 'when a Faraday::Error is raised' do
+
+      before do
+        allow(Faraday).to receive(:get).and_raise(Faraday::Error.new('Simulated Faraday Error'))
+      end
+
+      it 'rescues from Faraday::Error and returns an empty array' do
+        expect(CampaignFinance.find_from_top_twenty(search_params)).to eq([])
+      end
+    end
   end
   
 end
