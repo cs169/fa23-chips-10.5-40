@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# rubocop:disable RSpec/VerifiedDoubleReference
+
 require 'rails_helper'
 require 'spec_helper'
 
@@ -38,17 +40,21 @@ party: nil, photo_url: 'http://example.com/photo1.jpg'),
 party: nil, photo_url: 'http://example.com/photo2.jpg')
                                                        ])
 
-    allow(@rep_info).to receive(:offices).and_return([
-                                                       instance_double('Office', name: 'Mayor', official_indices: [0],
+    allow(@rep_info).to receive(:offices).and_return(
+      [
+        instance_double('Office', name: 'Mayor', official_indices: [0],
 division_id: 'ocd-division/country:us/state:ca/place:example_city'),
-                                                       instance_double('Office', name: 'Governor', official_indices: [1],
-                                                 division_id: 'ocd-division/country:us/state:ca')
-                                                     ])
+        instance_double('Office', name:             'Governor',
+                                  official_indices: [1],
+                                  division_id:      'ocd-division/country:us/state:ca')
+      ]
+    )
   end
 
   def setup_rep_info_for_existing_rep
     allow(@rep_info).to receive(:officials).and_return([
-                                                         instance_double('Official', name: 'Chris Traeger', address: nil,
+                                                         instance_double('Official', name: 'Chris Traeger',
+                                                          address: nil,
 party: nil, photo_url: nil)
                                                        ])
 
@@ -104,8 +110,9 @@ division_id: 'ocd-division/country:us/state:ca/place:example_city')
       'city'            => nil,
       'state'           => nil,
       'zip'             => nil,
-      'political_party' => "",
+      'political_party' => '',
       'photo'           => photo_url
     )
   end
 end
+# rubocop:enable RSpec/VerifiedDoubleReference
