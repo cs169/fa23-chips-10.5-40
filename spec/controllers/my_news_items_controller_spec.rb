@@ -6,41 +6,41 @@ RSpec.describe MyNewsItemsController, type: :controller do
   let(:user) do
     User.create!(
       first_name: 'John',
-      last_name: 'Doe',
-      uid: 'UID1',
-      provider: :google_oauth2
+      last_name:  'Doe',
+      uid:        'UID1',
+      provider:   :google_oauth2
     )
   end
 
   let(:representative) do
     Representative.create!(
-      name: 'John Doe',
-      ocdid: 'ocd-division/country:us/state:example',
-      title: 'Position Title',
+      name:   'John Doe',
+      ocdid:  'ocd-division/country:us/state:example',
+      title:  'Position Title',
       street: '123 Main St',
-      city: 'Anytown',
-      state: 'State',
-      zip: '12345',
+      city:   'Anytown',
+      state:  'State',
+      zip:    '12345'
     )
   end
 
   let(:valid_attributes) do
     {
-      title: 'Sample Title',
-      description: 'Sample Description',
-      link: 'https://example.com',
+      title:             'Sample Title',
+      description:       'Sample Description',
+      link:              'https://example.com',
       representative_id: representative.id,
-      issue: 'Sample Issue'
+      issue:             'Sample Issue'
     }
   end
 
   let(:invalid_attributes) do
     {
-      title: nil,
-      description: 'Sample Description',
-      link: 'https://example.com',
+      title:             nil,
+      description:       'Sample Description',
+      link:              'https://example.com',
       representative_id: representative.id,
-      issue: 'Sample Issue'
+      issue:             'Sample Issue'
     }
   end
 
@@ -85,7 +85,7 @@ RSpec.describe MyNewsItemsController, type: :controller do
 
     context 'with valid parameters' do
       it 'updates the news_item' do
-        new_attributes = { title: 'New Title', description: 'New Description'}
+        new_attributes = { title: 'New Title', description: 'New Description' }
         put :update, params: { id: news_item.id, news_item: new_attributes, representative_id: representative.id }
         news_item.reload
         expect(news_item.title).to eq('New Title')
