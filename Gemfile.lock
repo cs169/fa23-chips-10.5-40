@@ -90,6 +90,8 @@ GEM
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
     concurrent-ruby (1.1.10)
+    crack (0.4.5)
+      rexml
     crass (1.0.6)
     cucumber (7.1.0)
       builder (~> 3.2, >= 3.2.4)
@@ -247,6 +249,7 @@ GEM
       rainbow
       rubocop (>= 0.50.0)
       sysexits (~> 1.1)
+    hashdiff (1.0.1)
     hashie (5.0.0)
     html2haml (2.2.0)
       erubis (~> 2.7.0)
@@ -502,6 +505,10 @@ GEM
       activemodel (>= 5.0)
       bindex (>= 0.4.0)
       railties (>= 5.0)
+    webmock (3.19.1)
+      addressable (>= 2.8.0)
+      crack (>= 0.3.2)
+      hashdiff (>= 0.4.0, < 2.0.0)
     webpacker (5.1.1)
       activesupport (>= 5.2)
       rack-proxy (>= 0.6.1)
@@ -563,6 +570,7 @@ DEPENDENCIES
   sqlite3
   tzinfo-data
   web-console (>= 3.3.0)
+  webmock
   webpacker (= 5.1.1)
 
 RUBY VERSION

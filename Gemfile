@@ -75,6 +75,7 @@ group :development, :test, :linters do
   gem 'byebug'
   gem 'pry'
   gem 'pry-byebug'
+  gem 'webmock'
 
   # Linters and static analysis.
   gem 'haml-lint', require: false
