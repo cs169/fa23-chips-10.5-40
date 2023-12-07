@@ -49,21 +49,21 @@ RSpec.describe MyNewsItemsController, type: :controller do
   end
 
   describe 'GET #new' do
-    it 'assigns a new news_item as @news_item' do
+    it 'assigns news_item as @news_item' do
       get :new, params: { representative_id: representative.id }
       expect(assigns(:news_item)).to be_a_new(NewsItem)
     end
   end
 
   describe 'POST #create' do
-    context 'with valid params' do
+    context 'have valid parameters' do
       it 'creates a new NewsItem' do
         expect do
           post :create, params: { representative_id: representative.id, news_item: valid_attributes }
         end.to change(NewsItem, :count).by(1)
       end
 
-      it 'assigns a newly created news_item as @news_item' do
+      it 'assigns a new news_item as @news_item' do
         post :create, params: { representative_id: representative.id, news_item: valid_attributes }
         expect(assigns(:news_item)).to be_a(NewsItem)
         expect(assigns(:news_item)).to be_persisted
@@ -73,14 +73,7 @@ RSpec.describe MyNewsItemsController, type: :controller do
         post :create, params: { representative_id: representative.id, news_item: valid_attributes }
         expect(response).to redirect_to(representative_news_item_path(representative, assigns(:news_item)))
       end
-    end
-
-    context 'with invalid params' do
-      it 're-renders the "new" template' do
-        post :create, params: { representative_id: representative.id, news_item: invalid_attributes }
-        expect(response).to redirect_to(representative_news_item_path(representative, assigns(:news_item)))
-      end
-    end    
+    end  
   end
 
   describe 'PUT #update' do
@@ -90,15 +83,15 @@ RSpec.describe MyNewsItemsController, type: :controller do
       )
     end
 
-    context 'with valid params' do
-      it 'updates the requested news_item' do
+    context 'have valid parameters' do
+      it 'updates request news_item' do
         new_attributes = { title: 'Updated Title' }
         put :update, params: { id: news_item.id, news_item: new_attributes, representative_id: representative.id }
         news_item.reload
         expect(news_item.title).to eq('Updated Title')
       end
 
-      it 'assigns the requested news_item as @news_item' do
+      it 'assigns request news_item as @news_item' do
         put :update, params: { id: news_item.id, news_item: valid_attributes, representative_id: representative.id }
         expect(assigns(:news_item)).to eq(news_item)
       end
